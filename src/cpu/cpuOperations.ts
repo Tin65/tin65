@@ -19,6 +19,17 @@ import {
         cpu.triggerIRQB(true); // a brk is a software irqb with the brk processor status set
       },
     },
+
+    // Weird little RTI thing
+    0x40: {
+      name: "RTI",
+      dataBytes: 0,
+      func: (cpu) => {
+        cpu.processorStatus = cpu._pull8BitValueFromStack();
+        cpu.programCounter  = cpu._pull16BitValueFromStack();
+      }
+    },
+
     0x08: {
       name: "PHP",
       dataBytes: 0,
